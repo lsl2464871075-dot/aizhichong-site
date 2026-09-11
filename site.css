@@ -304,9 +304,7 @@
            套餐卡片
         =================================================================== */
         .pricing-section { background: var(--color-bg); border-top: 1px solid var(--color-border); }
-        .category-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; max-width: 1200px; margin: 0 auto; }
-        @media (min-width: 640px) { .category-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (min-width: 1024px) { .category-grid { grid-template-columns: repeat(4, 1fr); } }
+        .category-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; max-width: 880px; margin: 0 auto; }
         .category-card {
             position: relative; background: var(--color-bg-card);
             border: 1px solid var(--color-border); border-radius: 1.25rem;
@@ -968,3 +966,36 @@ body>*{position:relative;z-index:1}
   -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
 }
 @media (max-width:640px){ .hero-pay{ font-size:.9rem; padding:.5rem 1rem; } }
+
+/* ============================================================
+   首屏 CTA 排版修复
+   保证按钮容器有独立的布局空间，避免动画层/相邻内容造成视觉重叠。
+============================================================ */
+.hero-cta{
+  position:relative;
+  z-index:2;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:52px;
+  margin:1.5rem auto 2rem;
+  isolation:isolate;
+}
+.hero-cta .btn{
+  position:relative;
+  z-index:1;
+  min-height:52px;
+}
+.hero-pay{ margin-top:0; }
+.hero-trust{ margin-top:.25rem; }
+
+@media (max-width:768px){
+  .hero-cta{
+    display:flex;
+    width:min(100%,360px);
+    min-height:0;
+    margin-top:1.25rem;
+    margin-bottom:2rem;
+  }
+  .hero-cta .btn{ width:100%; }
+}
