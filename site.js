@@ -3,7 +3,7 @@
         =================================================================== */
         const CONFIG = {
             siteName: 'aizhichong.cc',                    // 品牌名（导航、Hero、页脚自动替换）
-            shopUrl:  'http://i8c.cn/kd9Ml',               // 购买入口
+            shopUrl:  'https://qfcc99.com/shop/1FFA5W1G',  // 购买入口
             wechat:   'tuanzi0897',                       // 客服微信号（复制按钮 + 显示文本）
             adsConversion: ''                            // Google Ads 转化代码，形如 'AW-1234567890/AbC-dEf_gh12ijk'；留空则只上报 GA4
         };
