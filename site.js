@@ -5,6 +5,7 @@
             siteName: 'aizhichong.cc',                    // 品牌名（导航、Hero、页脚自动替换）
             shopUrl:  'https://qfcc99.com/shop/1FFA5W1G',  // 购买入口
             wechat:   'tuanzi0897',                       // 客服微信号（复制按钮 + 显示文本）
+            backupQQ: '2464871075',                       // 备用 QQ
             adsConversion: ''                            // Google Ads 转化代码，形如 'AW-1234567890/AbC-dEf_gh12ijk'；留空则只上报 GA4
         };
 
@@ -12,6 +13,7 @@
         document.querySelectorAll('[data-site-name]').forEach(el => el.textContent = CONFIG.siteName);
         document.querySelectorAll('[data-shop-link]').forEach(el => el.href = CONFIG.shopUrl);
         document.querySelectorAll('[data-wechat]').forEach(el => el.textContent = CONFIG.wechat);
+        document.querySelectorAll('[data-backup-qq]').forEach(el => el.textContent = CONFIG.backupQQ);
 
         // 复制任意文本（用于客服微信、备用微信等）
         function copyText(text) {
@@ -23,6 +25,8 @@
         }
         // 复制主客服微信号
         function copyWechat() { copyText(CONFIG.wechat); }
+        // 复制备用 QQ
+        function copyBackupQQ() { copyText(CONFIG.backupQQ); }
         function fallbackCopy(text) {
             const ta = document.createElement('textarea');
             ta.value = text; document.body.appendChild(ta); ta.select();
