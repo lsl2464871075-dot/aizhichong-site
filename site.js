@@ -11,7 +11,7 @@
 
         // 应用配置
         document.querySelectorAll('[data-site-name]').forEach(el => el.textContent = CONFIG.siteName);
-        document.querySelectorAll('[data-shop-link]').forEach(el => el.href = CONFIG.shopUrl);
+        document.querySelectorAll('[data-shop-link]:not([data-product])').forEach(el => el.href = CONFIG.shopUrl);
         document.querySelectorAll('[data-wechat]').forEach(el => el.textContent = CONFIG.wechat);
         document.querySelectorAll('[data-backup-qq]').forEach(el => el.textContent = CONFIG.backupQQ);
 
@@ -30,7 +30,7 @@
         function fallbackCopy(text) {
             const ta = document.createElement('textarea');
             ta.value = text; document.body.appendChild(ta); ta.select();
-            try { document.execCommand('copy'); showToast('微信号已复制！'); }
+            try { if (!document.execCommand('copy')) throw new Error('copy failed'); showToast('已复制：' + text); }
             catch (e) { showToast('复制失败，请手动复制：' + text); }
             document.body.removeChild(ta);
         }
@@ -86,7 +86,9 @@
         // 锚点平滑滚动
         document.querySelectorAll('a[href^="#"]').forEach(a => {
             a.addEventListener('click', function (e) {
-                const target = document.querySelector(this.getAttribute('href'));
+                const hash = this.getAttribute('href');
+                if (!hash || hash === '#') return;
+                const target = document.querySelector(hash);
                 if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
             });
         });

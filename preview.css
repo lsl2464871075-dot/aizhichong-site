@@ -1,0 +1,57 @@
+/* 本地初稿的商品排列补充。品牌、字体、配色、按钮、卡片沿用原站 site.css。 */
+main { position: relative; z-index: 1; }
+html { scroll-padding-top: 88px; }
+.hero-title { font-size: clamp(1.9rem,4.2vw,3.35rem); line-height: 1.2; }
+.hero-cta { display: flex; flex-wrap: wrap; width: fit-content; max-width: 100%; }
+.portal-memberships { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1.25rem; max-width: 1100px; margin: 0 auto; }
+.portal-accounts { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1.25rem; max-width: 880px; margin: 0 auto; }
+.portal-product .btn { justify-content: center; width: 100%; font-size: .88rem; white-space: normal; }
+.portal-product .category-name { line-height: 1.35; }
+.portal-product .category-variants { min-height: 2.4em; }
+.portal-featured { border-color: var(--color-accent); }
+.portal-featured .pkg-badge { background: var(--grad); top: .8rem; left: auto; right: 1rem; transform: none; }
+.portal-account-heading { margin-top: 4rem; }
+.portal-shop-link { display: flex; justify-content: center; margin-top: 1.75rem; }
+.portal-left { margin: 1rem 0 0; }
+.portal-divider { border-top: 1px solid var(--color-border); }
+.portal-gpt-price { font-size: 1.65rem; color: var(--color-text); font-weight: 700; margin: .8rem 0; }
+.qa-q { cursor: pointer; }
+.qa-item[open] .qa-a { padding-top: .75rem; }
+.qa-item:not([open]) .qa-q { margin-bottom: 0; }
+.nav-logo .nav-logo-text { display: inline-flex; }
+.hero-mission { color: var(--color-text-muted); font-size: clamp(1.05rem,2vw,1.3rem); font-weight: 500; margin: 0 0 .8rem; line-height: 1.6; }
+.proof-text .portal-evidence-note { font-size: .83rem; line-height: 1.65; color: var(--color-text-muted); }
+.portal-image-caption { color: var(--color-text-muted); font-size: .78rem; line-height: 1.6; text-align: center; margin-top: .75rem; }
+.review-card--img .portal-image-caption { margin: 0; }
+.portal-stats-note { text-align: center; color: var(--color-text-muted); font-size: .8rem; line-height: 1.65; margin: -1.75rem auto 2.5rem; }
+.reviews-grid { align-items: start; }
+.reviews-grid a { display: block; }
+.proof-figure a { display: block; }
+.review-stat-num { white-space: nowrap; }
+a:focus-visible,button:focus-visible,summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+@media(max-width:800px) {
+  .portal-memberships { grid-template-columns: 1fr; max-width: 620px; }
+  .portal-accounts { grid-template-columns: 1fr; max-width: 620px; }
+  .portal-account-heading { margin-top: 3rem; }
+}
+@media(max-width:768px) {
+  .hero-cta { width: min(100%,360px); }
+}
+@media(max-width:480px) {
+  .nav-inner { flex-wrap: wrap; gap: .65rem; }
+  .nav-logo { margin-right: auto; }
+  .nav-links { order: 3; width: 100%; flex: 0 0 100%; margin: 0; padding: .3rem 0; }
+  .hero-eyebrow { flex-wrap: wrap; justify-content: center; }
+  .hero-title { font-size: clamp(1.9rem,7.7vw,2.5rem); line-height: 1.2; }
+  .hero { padding-inline: 1rem; }
+  .hero-subtitle { font-size: 1rem; }
+  .hero-meta { font-size: .85rem; }
+  .hero-trust { flex-wrap: wrap; }
+  .portal-product .category-variants { min-height: 0; }
+  .portal-product { padding: 1.75rem; }
+  .contact-card { padding: 1.5rem; }
+}
+@media(prefers-reduced-motion:reduce) { html { scroll-behavior: auto; } .rise-in { animation: none; } }
+
+/* 移除右侧交付说明后，原有流程使用完整行宽。 */
+.trust-layout.portal-flow-full { grid-template-columns: 1fr; }
