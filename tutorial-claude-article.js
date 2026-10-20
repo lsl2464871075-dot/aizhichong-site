@@ -1,0 +1,103 @@
+/* One article. Full original recording first, then large screenshots in operation order. */
+const guideHome='https://aizhichong.cc/#pricing';
+const refPost='https://scys.com/articleDetail/xq_topic/82258251844245422';
+tools[3]={title:'Claude 会员与账号',sub:'回官网商品区',icon:'card',url:guideHome};
+function shot(file,caption,rects=[]){
+ return `<figure class="guide-shot"><button type="button" class="enlarge-shot" aria-label="放大：${caption}"><img src="tutorial-guide-${file}.jpg?v=original-v4" alt="${caption}" loading="lazy" width="1280" height="720">${rects.map(([x,y,w,h],i)=>`<span class="guide-mark" style="left:${x/12.8}%;top:${y/7.2}%;width:${w/12.8}%;height:${h/7.2}%"><b>${rects.length>1?i+1:'点这里'}</b></span>`).join('')}</button><figcaption>${caption} <span>点击图片放大</span></figcaption></figure>`;
+}
+function stamp(t,label){return `<button class="video-time" data-time="${t}" type="button">视频 ${label} ↗</button>`;}
+function step(n,title,body){return `<section class="plain-step" id="guide-step-${n}"><h3><span>${n}.</span> ${title}</h3>${body}</section>`;}
+function guideLink(url,label){return ext(url,label+' ↗','plain-link');}
+function guideFaq(){
+ return `<section class="plain-section faq-library" id="guide-questions"><h2>核心问题答疑</h2><p>先检查环境，再登录使用。下面只保留最常遇到的 ${claudeFaqTopics.length} 个问题。</p><label for="faq-search">搜索问题</label><input id="faq-search" type="search" placeholder="例如：三个 IP、第一周、KYC、登录失败" autocomplete="off"><p id="faq-result-count" class="small-note" role="status"></p><div class="faq-results">${claudeFaqTopics.map((q,i)=>`<details class="faq-item" id="${q.id}" data-faq-id="${q.id}" ${i===0?'open':''}><summary>${esc(q.title)}</summary><ol class="guide-actions">${q.steps.map(t=>`<li>${esc(t)}</li>`).join('')}</ol>${q.image?`<figure class="guide-shot faq-reference"><button type="button" class="enlarge-shot" aria-label="放大 IP 检测参考图"><img src="tutorial-ip-check-reference.jpg" alt="检测参考图：顶部三个出口 IP、信任评分、DNS 和 WebRTC 检测位置" loading="lazy"></button><figcaption>点击放大。本图用于说明检测位置，图中 IP 属性实际为“机房 IP”，并非住宅 IP 样例。80 分为本店参考值。</figcaption></figure>`:''}${q.resources?`<details class="faq-resources"><summary>打开检测 / 下载网址</summary><div>${q.resources.map(([u,t])=>ext(u,esc(t))).join('')}</div><p class="small-note">以上为第三方工具入口，检测结果仅供参考。</p></details>`:''}<p class="faq-next">${q.purchase?ext(q.link,'前往官网，查看 Claude 成品账号 →','faq-buy'): `<a href="${q.link}">${q.link==='#guide-comments'?'还有问题，在下方留言':'查看对应操作步骤'} →</a>`}</p></details>`).join('')}</div><p id="faq-empty" hidden>暂时没有找到这个问题。可以换个关键词，或在下方留言。</p><p class="small-note">上述经验建议不是 Claude 官方防封规则。网络检测通过、观察时间达到，都不保证不会触发验证或账号限制。评论中请勿填写密码、验证码和 SessionKey。</p></section>`;
+}
+function bindFaqLibrary(){
+ let group='全部';
+ const input=document.querySelector('#faq-search');
+ const filter=()=>{const term=input.value.trim().toLocaleLowerCase();let count=0;claudeFaqTopics.forEach(q=>{const match=(group==='全部'||q.group===group)&&[q.title,q.group,...q.steps].join(' ').toLocaleLowerCase().includes(term);document.getElementById(q.id).hidden=!match;if(match)count++;});document.querySelector('#faq-result-count').textContent=`找到 ${count} 个问题`;document.querySelector('#faq-empty').hidden=count!==0;};
+ input.addEventListener('input',filter);
+ document.querySelectorAll('[data-faq-group]').forEach(b=>b.onclick=()=>{group=b.dataset.faqGroup;document.querySelectorAll('[data-faq-group]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));filter();});filter();
+}
+function renderClaudeArticle(){
+ currentProduct='claude';
+ app.innerHTML=`<div class="plain-wrap">
+ <div class="plain-breadcrumb"><a href="#/">教程中心</a><span>/</span><strong>Claude</strong><a href="#/category/chatgpt">ChatGPT 教程</a><a href="#/category/codex">Codex 教程</a></div>
+ <div class="guide-layout"><aside class="chapter-sidebar"><details class="chapter-panel" open><summary>本篇目录</summary><nav aria-label="章节导航"><a href="#guide-video">完整视频</a><a href="#guide-ready">先准备什么</a><a href="#guide-step-1">购买与提取 IP</a><a href="#guide-step-3">配置比特浏览器</a><a href="#guide-check">检测 IP 与环境</a><a href="#guide-login">注册与登录 Claude</a><a href="#guide-login-help">登录失败怎么办</a><a href="#guide-buy">购买与充值会员</a><a href="#guide-step-15">检查会员到账</a><a href="#guide-questions">问题答疑（${claudeFaqTopics.length}）</a><a href="#guide-comments">评论与答疑</a></nav></details></aside><article class="plain-article">
+ <header class="plain-title"><h1>Claude 注册、登录与会员充值教程</h1><p>先看完整视频。想直接操作，就往下看，一步一张图。</p></header>
+ <div class="full-video" id="guide-video"><video controls playsinline preload="metadata" poster="tutorial-guide-first-chat.jpg?v=original-v4" aria-label="Claude 从零到一完整视频"><source src="tutorial-claude-original.mp4" type="video/mp4">请使用支持 MP4 的浏览器。</video><p>原版完整视频 · 12 分 47 秒 · 手机号已打码 <a href="tutorial-claude-original.mp4" target="_blank" rel="noopener">单独打开视频 ↗</a></p></div>
+ <nav class="plain-toc" aria-label="本文目录"><a href="#guide-ready">准备什么</a><a href="#guide-network">配置浏览器</a><a href="#guide-login">注册与登录</a><a href="#guide-buy">购买与充值</a><a href="#guide-questions">问题答疑（${claudeFaqTopics.length}）</a></nav>
+ <section class="plain-section" id="guide-ready"><h2>先准备这两样</h2><p><strong>一个能收邮件的邮箱，一台能正常访问 Claude 的电脑。</strong>Gmail、Outlook（微软邮箱）、GMX 都可以先检查能否正常收信。已有账号的，直接往下看登录。</p><p>还没有账号，也可以先${guideLink(guideHome,'查看普通成品号 / KYC 成品号')}。注意：成品账号与 Pro / Max 会员是不同商品。</p><p class="small-note">这份教程以网页版为主。视频中的价格和界面属于录制时情况，购买前查看当前页面；使用 Claude 需符合其支持地区与账号条件。</p></section>
+ <section class="plain-section" id="guide-network"><h2>一、按视频配置浏览器</h2><p>如果你已经能正常打开并登录 Claude，可以直接跳到<a href="#guide-check">第二部分，检查当前环境</a>。下面是视频里的具体配置过程。</p>
+ ${step(1,'打开 IP 页面，选好需要的套餐',`<p>打开${guideLink(links.ip,'Cliproxy')}，登录后进入产品页面，找到第二栏<strong>“长效 IP”</strong>，点下面的<strong>“去购买”</strong>。先看地区、有效期和总价，再选择套餐。<strong>已经有可用代理的，不用再买一次。</strong>${stamp(136,'02:16')}</p>${shot('plan','红框：第二栏的长效 IP，点击去购买。',[[377,335,136,85]])}<p>下一页选择地区、有效期和数量。视频选择了美国、30 天；请按自己的实际条件选择，核对右侧总价，再点<strong>“立即购买”</strong>。</p>${shot('region','① 有效期；② 地区；③ 核对金额后购买。图中价格为录制时价格。',[[125,155,200,39],[380,330,245,50],[1015,568,125,44]])}`)}
+ ${step(2,'购买后，点击“提取并使用 IP”',`<p>付款后回到控制台，找到“长效静态 ISP”下的“静态模式”。如果列表还是空的，点页面中间紫色的<strong>“提取并使用 IP”</strong>，再按弹窗选择和提取。${stamp(191,'03:11')}</p>${shot('extract','红框：提取并使用 IP。购买完成后，还需要在这里提取。',[[660,415,100,35]])}<p>在右侧弹出的列表中，找到你要使用的城市，点击同一行右边的<strong>“提取”</strong>。视频演示的是洛杉矶这一行。</p>${shot('extract-city','找到城市后，点击同一行的提取按钮。',[[995,451,137,31]])}<p>提取后会出现下面这样的列表。接下来要用<strong>IP（主机）、端口、用户名、密码</strong>四项。先保留这个页面，后面逐项复制。</p>${shot('proxy-fields','连接信息在这一行。视频中的 IP 已停用；照着字段位置填写你自己的四项信息。',[[250,322,620,70]])}`)}
+ ${step(3,'下载比特浏览器，点击“创建窗口”',`<p>${guideLink(links.bit,'下载比特浏览器')}，选与你电脑系统对应的版本。安装并登录后，先点左侧<strong>“浏览器窗口”</strong>，再点上方<strong>“创建窗口”</strong>。${stamp(263,'04:23')}</p>${shot('create-window','① 浏览器窗口；② 创建窗口。',[[92,154,130,38],[240,92,110,34]])}<p>给窗口起个容易记住的名字，例如“我的 Claude”。下次使用时，就打开这个已保存的窗口。</p>`)}
+ ${step(4,'把四项代理信息填进对应栏',`<p>在新窗口设置里找到“代理设置”。视频选择的是 <strong>Socks5</strong>；你要选与供应商信息一致的协议。</p><table class="plain-table"><thead><tr><th>供应商给你的信息</th><th>填到这里</th></tr></thead><tbody><tr><td>IP / Host</td><td>代理主机</td></tr><tr><td>Port</td><td>代理端口</td></tr><tr><td>Username</td><td>代理账号</td></tr><tr><td>Password</td><td>代理密码</td></tr></tbody></table><p>逐项复制，前后不要带空格。<strong>这里填代理的账号密码，不是邮箱密码，也不是 Cliproxy 网站的登录密码。</strong>${stamp(275,'04:35')}</p>${shot('proxy-input','① 选择协议；② 填写主机、端口、代理账号、代理密码。',[[735,153,330,35],[735,225,340,165]])}`)}
+ ${step(5,'先检测，再保存',`<p>点右侧<strong>“代理检测”</strong>。检测正常，再点右下角<strong>“确定”</strong>。回到窗口列表，点这一行的“打开”，以后从这里进入。</p><p>如果检测失败，先检查刚才四项信息和代理是否到期；这一步没通，先别继续尝试登录。${stamp(313,'05:13')}</p>${shot('proxy-test','① 代理检测；② 确定保存。',[[1065,397,75,35],[1130,632,55,35]])}<p class="small-note">浏览器窗口里的代理配置不会自动应用到普通 Chrome、桌面版 Claude 或 Claude Code。IP 检测分数也不等于账号安全保证。</p>`)}
+ </section>
+ <section class="plain-section" id="guide-check"><h2>二、先检测 IP 与环境，再登录</h2>
+ ${step(6,'在刚配置好的窗口里打开检测页',`<p><strong>这一步不要跳过。</strong>在刚才的比特浏览器窗口中打开 ${guideLink('https://ip.net.coffee/claude/','Claude IP 检测页')}。等结果加载完，再按下面四项检查。别在普通 Chrome 测完，就以为比特里的环境也一样。${stamp(374,'06:14')}</p>
+ ${shot('ip-check','① 顶部三个出口；② AI 信任评分与地区；③ DNS 和 WebRTC 检测。原视频中的 IP 已停用。',[[287,208,706,106],[287,330,467,229],[525,577,469,140]])}
+ <h4>① 顶部三个出口 IP，要对得上</h4><p>从左到右看<strong>“中国出口 IPv4”“Cloudflare 出口 IP”“Claude AI 出口 IP”</strong>。按照本教程使用同一个静态出口时，三栏应显示同一个 IP。第一栏的“中国出口”是检测项目名称，不代表结果一定在中国，要看下面的实际 IP 和地区。</p><p>再与供应商给出的<strong>出口 IP</strong>核对。若供应商提供的是网关地址，网关与实际出口可能不同，先向供应商确认，不要只比最后几位。</p><p><strong>三个结果不一致：</strong>回窗口设置确认代理已保存、没有选“直连”，关闭并重新打开这个窗口，再测一次。使用系统代理的，检查分流是否让不同网站走了不同出口；先修正到预期路线，再尝试登录。</p>
+ <h4>② 看 AI 信任评分，别把分数方向看反</h4><p>这页的 <strong>Trust Score（AI 信任评分）越高越好</strong>。按本站过往客服建议，可先以 <strong>80 分以上</strong>作为参考，再看地区、IP 属性和滥用记录。低分时先核对供应商信息，必要时咨询更换，不要一边登录一边不停切换节点。</p><p class="small-note">80 分是商家的排查参考，不是 Claude 官方门槛。其他网站如果写“风险分”或“欺诈分”，可能越低越好，按该网站说明判断；高分也不等于不会封号。</p>
+ <h4>③ 往下看 DNS 和 WebRTC / UDP</h4><p><strong>DNS：</strong>看解析服务器是否符合你配置的网络。按本教程预期走海外代理时，若检测出现本地运营商或非预期的中国解析器，先检查 DNS 是否绕过代理。DNS 是解析服务器，不要求它的 IP 与上面三栏一模一样；单凭数据库标注的国家也不能直接判定泄露。</p><p><strong>WebRTC / UDP：</strong>看有没有出现代理之外的真实公网 IP。浏览器如果禁用了 WebRTC，显示“未检测到”或没有 UDP 地址可以是正常结果，不用强行凑成一个 IP；私网地址或 .local 名称也不等于真实公网 IP 泄露。</p><p><strong>有异常时：</strong>回该窗口的指纹设置，检查 WebRTC 控制项；不需要网页音视频通话时，可选择“禁止”，保存并重开后复测。需要通话则使用浏览器支持的代理模式并核实 UDP 支持。DNS 异常找代理服务商确认解析方式；系统代理用户可检查全局、TUN 与 DNS 路由是否真正生效，不能只看开关已打开。</p>
+ <h4>④ 核对时区、语言，再重新测一次</h4><p>在检测页的“用户设备信息”中看<strong>时区、语言</strong>，再回比特窗口的编辑页，找到对应设置。按照你选定的使用环境保持一致：例如洛杉矶出口对应 <strong>America/Los_Angeles</strong>，纽约对应 <strong>America/New_York</strong>；采用视频中的英语环境时，语言与界面语言可选择 <strong>English / en-US</strong>。支持“基于 IP”时也要保存后复测，不要只看设置页。</p><p>这里说的是浏览器设置，<strong>不是要求你用英文聊天</strong>，也不是让你改整台电脑的时区。中文界面本身不代表违规。重点是知道自己设置了什么，检测结果是否符合预期。</p><p><strong>检查完再继续：</strong>出口符合预期，没有发现非预期的 DNS / 公网 IP 泄露，时区和语言与选定配置相符。以后换浏览器或设备，也在实际使用的那个环境里重新检查一次。</p>`)}
+ </section>
+ <section class="plain-section" id="guide-login"><h2>三、打开 Claude，注册或登录账号</h2>
+ ${step(7,'打开 Claude，输入你的邮箱',`<p>在刚才准备使用的浏览器里打开${guideLink(links.claude,'Claude 官网')}。在邮箱框填写你的邮箱，再点<strong>Continue with email（使用邮箱继续）</strong>。用 Google 登录的，就点 Continue with Google（使用 Google 继续）。</p><div class="login-diagram" role="img" aria-label="邮箱登录位置示意：先填邮箱，再点 Continue with email"><span class="diagram-label">输入位置示意 · 非实拍截图</span><div class="mock-logo">Claude</div><div class="mock-field"><b>1</b>填写你的邮箱，例如 name@example.com</div><div class="mock-submit"><b>2</b>Continue with email<br><small>使用邮箱继续</small></div></div><p class="small-note">原视频演示的是已有账号登录；上图仅说明输入位置。首次注册时，按当前官网要求完成手机验证、同意条款和创建账号，不要把验证提示当成封号提示。</p>`)}
+ ${step(8,'打开邮箱里的登录邮件，点击 Sign in',`<p>回到刚填写的邮箱，找到 Claude 发来的登录邮件。点邮件中黑色的<strong>Sign in（登录）</strong>按钮。<strong>尽量在刚才发起登录的同一设备、同一浏览器窗口继续。</strong>${stamp(424,'07:04')}</p>${shot('mail','邮件正文在右边。点红框内的 Sign in，不是随便找一封历史邮件。',[[752,598,117,45]])}<p>如果在另一台设备打开邮件后出现验证码，就把验证码填回最初发起登录的设备。链接失效时回登录页重新获取；收不到邮件先看垃圾邮件文件夹。</p>`)}
+ ${step(9,'看到对话框后，先发一句话',`<p>回到 Claude，看到下面的对话页，在输入框里发一句“你好”。能正常收到回复，再确认登录的是你准备开会员的那个账号。${stamp(450,'07:30')}</p>${shot('first-chat','在中间输入框发送一条消息，确认账号能正常使用。',[[505,345,480,88]])}<p>自己注册的新账号，如果页面让你选套餐，可以先选 <strong>Use Claude for free（免费使用）</strong>；需要付费会员时再按下一部分操作。</p>`)}
+<section class="plain-step" id="guide-login-help"><h3>登录卡住或提示换浏览器，就按这个顺序处理</h3>
+ <p>比特浏览器登录卡住时，改用 <strong>AdsPower（ADS 指纹浏览器）</strong>，按下面配置后再登录。</p>
+ <p class="buy-inline">${guideLink('https://www.adspower.com/download','下载 AdsPower（ADS 浏览器）')}</p>
+ <h3>1. 新建环境，选择电脑系统</h3><p>安装并登录 AdsPower，点击左上角<strong>“新建环境”</strong>。浏览器选择 <strong>SunBrowser</strong>，操作系统按自己的电脑选择：Mac 选苹果图标，Windows 选 Windows 图标。</p>
+ <figure class="guide-shot"><div class="ads-basic-crop"><img src="tutorial-ads-setup-1.png" alt="AdsPower 基础设置：新建环境、SunBrowser 和操作系统" loading="lazy"></div><figcaption>基础设置位置。只需填写自己的环境信息，无需照抄示例 Cookie。</figcaption></figure>
+ <h3>2. 填写自己的代理信息</h3><p>点击<strong>“代理信息”</strong>，代理方式选择<strong>“自定义”</strong>。协议按供应商提供的选择；视频示例为 Socks5。把下面四项逐一填入：</p><table class="plain-table"><thead><tr><th>供应商的信息</th><th>ADS 对应字段</th></tr></thead><tbody><tr><td>IP / Host</td><td>代理主机</td></tr><tr><td>Port</td><td>代理端口</td></tr><tr><td>Username</td><td>代理账号</td></tr><tr><td>Password</td><td>代理密码</td></tr></tbody></table><p>不要填写邮箱密码，也不要复制示例 IP。切换浏览器后，这四项需要重新配置。</p>
+ <h3>3. 重点：开启“使用系统代理连接代理”</h3><p><strong>按本教程使用系统代理连接住宅代理时，先确保你的网络工具已启动，再做这一步，否则 ADS 可能无法联网。</strong></p><p>点击右上角<strong>头像 → 网络诊断</strong>，入口就在下图红框中。</p>
+ <figure class="guide-shot"><button type="button" class="enlarge-shot" aria-label="放大：头像下的网络诊断"><img src="tutorial-ads-setup-2.png" alt="点击右上角头像，选择红框中的网络诊断" loading="lazy"></button><figcaption>① 点击右上角头像；② 点击“网络诊断”。点击图片放大。</figcaption></figure>
+ <p>往下找到<strong>“系统代理”</strong>，打开<strong>“使用系统代理连接代理”</strong>，配置方式选择<strong>“自动检测系统代理”</strong>，然后点击下方<strong>“网络检测”</strong>。</p>
+ <figure class="guide-shot"><button type="button" class="enlarge-shot" aria-label="放大：系统代理开关与网络检测"><img src="tutorial-ads-setup-3.png" alt="开启使用系统代理连接代理，自动检测系统代理，再点击网络检测" loading="lazy"></button><figcaption>两个红框分别是系统代理开关和网络检测按钮。截图展示操作位置，并非检测通过的结果。</figcaption></figure>
+ <p><strong>这里是 ADS 内置的系统代理开关，不是另装一个浏览器插件。</strong>如果自动检测失败，先检查网络工具是否开启了系统代理；不要照抄截图里的 IP 或端口。</p>
+ <h3>4. 检查代理，保存环境，再登录</h3><p>回到环境的代理设置，点击<strong>“检查代理”</strong>。通过后点<strong>“确定”</strong>保存，再从环境列表打开这个窗口。</p><p>在新窗口中<a href="https://ip.net.coffee/claude/" target="_blank" rel="noopener noreferrer">打开 IP 检测页</a>，按<a href="#guide-check">前面的检测步骤</a>核对出口。最后打开 <a href="https://claude.ai/" target="_blank" rel="noopener noreferrer">claude.ai</a>，按页面正常登录。</p><p>仍然失败时，把完整提示和卡住的步骤发给商家。账号停用或身份验证与网络连接失败分开处理，换浏览器不能解除账号限制。</p>
+ </section>
+  </section>
+ <section class="plain-section" id="guide-buy"><h2>四、用微信 / 支付宝购买会员</h2>
+ <p><strong>自己无法准备海外卡、App Store 礼品卡或 Google Play 付款条件，可以从本站商品区选择会员。</strong>选择商品、按订单付款和领取交付内容，有问题直接联系商家。</p>
+ <p>自己走苹果、Google Play 或海外卡渠道，还需要分别处理支付账户、地区和购买限制，建议慎重考虑，有大多数人踩过坑。</p>
+ ${step(10,'回官网选商品，再进入秋风发卡网下单',`<p>${guideLink(guideHome,'打开官网的 Claude 商品区')}，找到你需要的 Pro / Max 会员，点对应商品按钮进入秋风。<strong>已有账号要开会员，就选会员商品；不要误选成品账号。</strong>${stamp(591,'09:51')}</p>${shot('shop','原片中的秋风店铺。先切到 Claude 分类，再选择对应会员。')}<p>打开商品后，先看周期、账号条件、交付方式和售后范围。不清楚自己的账号能不能充值，就先联系商家确认。</p>${shot('product','下单前先看商品名称与说明。价格和条件以当前商品为准。',[[463,175,345,34],[462,206,355,150]])}<p class="buy-inline">${guideLink(guideHome,'去官网选择 Claude 会员与账号')}</p>`)}
+ ${step(11,'选支付宝或微信，点击“去支付”',`<p>按订单要求填写联系信息，确认金额，再选择<strong>支付宝</strong>或<strong>微信</strong>，点击右下角<strong>“去支付”</strong>。支付后保存订单信息，方便查询。${stamp(638,'10:38')}</p>${shot('pay','① 选择付款方式；② 去支付。请按你当前的结算页操作。',[[469,560,200,46],[747,621,66,35]])}`)}
+ ${step(12,'回订单，找到卡密和本次激活入口',`<p>付款后打开订单详情。卡密类商品会在订单里显示卡密和使用说明。<strong>复制自己的卡密，再打开这笔订单给出的激活入口。</strong>不要手打视频里的旧网址。${stamp(658,'10:58')}</p>${shot('order','① 订单里领取卡密；② 下方使用说明里找本次激活入口。',[[255,365,765,67],[252,475,535,55]])}<p>如果买的是需要商家处理的商品，按详情里的安排联系商家，不用套用下面的自助卡密流程。</p>`)}
+ ${step(13,'进入激活页，先验证卡密',`<p>先读激活页的使用条件，确认自己的账号符合，再把刚领取的卡密粘到<strong>“验证卡密”</strong>输入框，点击下方验证按钮。${stamp(675,'11:15')}</p>${shot('activate','先读条件，再填写自己订单里的卡密。',[[332,564,616,68],[332,636,616,33]])}<p class="small-note">原片旧页面对账号注册时间有明确要求。不要只根据“等四小时”就判断一定能充；以本次订单与当前激活页的条件为准。</p>`)}
+ ${step(14,'核对目标账号，再确认充值',`<p>视频中的激活服务还要求目标账号的登录会话。<strong>SessionKey 属于登录凭据</strong>，只在核实并信任的当前订单服务内使用，不要发到公开评论里。</p><p>如果你当前订单仍采用视频中的方式：在已登录的 Claude 页面打开浏览器开发者工具，点 <strong>Application（应用） → Cookies → claude.ai</strong>，找到 <strong>sessionKey</strong>。请使用你当前账号的信息，勿复制视频里的示例值。${stamp(688,'11:28')}</p>${shot('session','① Application；② Cookies 下的 claude.ai；③ sessionKey。不要把真实值截图公开。',[[964,90,62,25],[598,261,113,39],[714,417,90,25]])}<p>核对自己登录的就是目标账号，再按当前订单要求完成对应字段。回到确认页，检查账号与商品信息无误，勾选确认框，再点<strong>“确认充值”</strong>。页面与视频不同或不清楚授权范围时，先联系商家。</p>${shot('confirm','① 核对信息后勾选；② 确认充值。不要把下面的“刷新订阅”当成首次充值按钮。',[[330,310,290,20],[398,326,551,41]])}`)}
+ ${step(15,'最后回 Claude，检查会员有没有到账',`<p>激活页面显示完成后，回到 Claude 刷新。打开设置，找到 <strong>Billing（账单）</strong>，查看套餐名称。买的是 Pro，就检查是否显示 <strong>Pro plan</strong>。${stamp(721,'12:01')}</p>${shot('billing','① 设置里的 Billing；② 账号已显示 Pro plan。',[[273,251,125,29],[475,161,120,47]])}<p><strong>到这里才算核对完成。</strong>如果付款了但仍显示 Free，先核对账号和订单状态，再把订单编号、付款时间和当前提示发给商家，别直接重复付款。</p>`)}
+ <p class="merchant-line">充值、订单问题联系商家微信：<strong>tuanzi0897</strong> <button class="text-button" id="guide-copy-contact" type="button">复制</button></p>
+ </section>
+ ${guideFaq()}
+ <section id="guide-comments">${comments({id:'claude-complete-guide'})}</section>
+ <div class="guide-source">写法参考：${ext(refPost,'夙愿学长的生财精华帖')}。操作视频和截图来自本站实拍，注册条件与登录方式另参考 ${ext('https://support.claude.com/en/articles/13189465-log-in-to-your-claude-account','Claude 官方登录说明')}、${ext('https://support.claude.com/en/articles/8287232-verify-your-phone-number','手机验证说明')}。检测字段参考 ${ext('https://ip.net.coffee/claude/','Net.Coffee 检测页')}，浏览器操作参考 ${ext('https://help.adspower.com/docs/creating_browser_profiles','AdsPower 官方帮助')}。</div>
+ </article></div></div><dialog id="guide-image-dialog"><button type="button" class="close-shot" aria-label="关闭放大图片">关闭 ×</button><div id="guide-image-content"></div></dialog>`;
+ bindComments('claude-complete-guide');
+ bindFaqLibrary();
+ const panel=document.querySelector('.chapter-panel');
+ if(window.guideMq&&window.guideMqHandler)window.guideMq.removeEventListener('change',window.guideMqHandler);
+ window.guideMq=window.matchMedia('(max-width:1000px)');
+ window.guideMqHandler=()=>{panel.open=!window.guideMq.matches;};
+ window.guideMqHandler();window.guideMq.addEventListener('change',window.guideMqHandler);
+ if(window.guideChapterObserver)window.guideChapterObserver.disconnect();
+ const chapterLinks=[...document.querySelectorAll('.chapter-sidebar a')];
+ window.guideChapterObserver=new IntersectionObserver(entries=>{
+   const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top);
+   if(!visible.length)return;
+   chapterLinks.forEach(a=>{const active=a.hash==='#'+visible[0].target.id;a.classList.toggle('current',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});
+ },{rootMargin:'-18% 0px -55% 0px',threshold:0});
+ chapterLinks.forEach(a=>{const section=document.querySelector(a.hash);if(section)window.guideChapterObserver.observe(section);});
+ document.querySelectorAll('a[href^="#guide-"]').forEach(a=>a.onclick=e=>{e.preventDefault();if(a.closest('.chapter-sidebar')&&window.guideMq.matches)panel.open=false;document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth',block:'start'});});
+ document.querySelectorAll('[data-time]').forEach(b=>b.onclick=()=>{const v=document.querySelector('video');v.currentTime=Number(b.dataset.time);document.querySelector('#guide-video').scrollIntoView({behavior:'smooth'});v.play().catch(()=>{});});
+ const dialog=document.querySelector('#guide-image-dialog');
+ document.querySelectorAll('.enlarge-shot').forEach(b=>b.onclick=()=>{document.querySelector('#guide-image-content').innerHTML=`<div class="enlarged-inner">${b.innerHTML}</div>`;dialog.showModal();});
+ document.querySelector('.close-shot').onclick=()=>dialog.close();
+ document.querySelector('#guide-copy-contact').onclick=async()=>{try{await navigator.clipboard.writeText('tuanzi0897');toast('微信号已复制');}catch{toast('请复制：tuanzi0897');}};
+}
+const originalHub=renderHub,originalLesson=renderLesson;
+renderHub=function(p='claude'){if(p==='claude')renderClaudeArticle();else originalHub(p);};
+renderLesson=function(id){if(id?.startsWith('claude'))renderClaudeArticle();else originalLesson(id);};
+route();
