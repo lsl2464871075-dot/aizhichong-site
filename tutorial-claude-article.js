@@ -21,7 +21,7 @@ function bindFaqLibrary(){
 function renderClaudeArticle(){
  currentProduct='claude';
  app.innerHTML=`<div class="plain-wrap">
- <div class="plain-breadcrumb"><a href="#/">教程中心</a><span>/</span><strong>Claude</strong><a href="#/category/chatgpt">ChatGPT 教程</a><a href="#/category/codex">Codex 教程</a></div>
+ <div class="plain-breadcrumb"><a href="#/">教程中心</a><span>/</span><a href="#/category/claude">Claude 使用教程</a><span>/</span><strong>注册、登录与充值</strong><a href="#/category/chatgpt">ChatGPT 教程</a><a href="#/category/codex">Codex 教程</a></div>
  <div class="guide-layout"><aside class="chapter-sidebar"><details class="chapter-panel" open><summary>本篇目录</summary><nav aria-label="章节导航"><a href="#guide-video">完整视频</a><a href="#guide-ready">先准备什么</a><a href="#guide-step-1">购买与提取 IP</a><a href="#guide-step-3">配置比特浏览器</a><a href="#guide-check">检测 IP 与环境</a><a href="#guide-login">注册与登录 Claude</a><a href="#guide-login-help">登录失败怎么办</a><a href="#guide-buy">购买与充值会员</a><a href="#guide-step-15">检查会员到账</a><a href="#guide-questions">问题答疑（${claudeFaqTopics.length}）</a><a href="#guide-comments">评论与答疑</a></nav></details></aside><article class="plain-article">
  <header class="plain-title"><h1>Claude 注册、登录与会员充值教程</h1><p>先看完整视频。想直接操作，就往下看，一步一张图。</p></header>
  <div class="full-video" id="guide-video"><video controls playsinline preload="metadata" poster="tutorial-claude-tutorial-cover.png?v=20261020-cover" aria-label="Claude 从零到一完整视频"><source src="tutorial-claude-original.mp4" type="video/mp4">请使用支持 MP4 的浏览器。</video><p>完整视频 · 12 分 47 秒 <a href="tutorial-claude-original.mp4" target="_blank" rel="noopener">单独打开视频 ↗</a></p></div>
