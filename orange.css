@@ -135,3 +135,10 @@ body::before{
   .hero-tutorial-tip{position:static;transform:none;margin-top:8px}
   .hero-tutorial-tip::before{display:none}
 }
+
+/* 大屏：四个按钮放一行，小标签挂在教程中心按钮正下方 */
+@media (min-width:1100px){
+  .hero-inner{max-width:1120px}
+  .hero-cta{flex-wrap:nowrap}
+  .hero-cta .btn,.hero-tutorial-main{white-space:nowrap}
+}
