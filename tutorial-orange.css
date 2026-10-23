@@ -1,0 +1,58 @@
+/* 教程中心：与首页 orange.css 同一套暖橙配色 */
+:root{
+  --color-bg:#FFFFFF;
+  --color-accent:#EE7340;
+  --color-accent-hover:#D9602F;
+  --color-accent-soft:#FFF3EB;
+  --grad:linear-gradient(120deg,#F5A03C 0%,#EE7340 50%,#E2525A 100%);
+  --learn-bg:#FFFFFF;
+}
+body{background:#FFFFFF}
+.btn-primary-new,.btn-primary-new:hover{background:var(--grad);color:#fff;box-shadow:0 8px 24px rgba(238,115,64,.28)}
+.demo-banner{background:#FFF3EB;color:#B5562A}
+
+/* 顶部 Logo：与首页一致，AI智充 橙色徽标 + 黑色粗体网址 */
+.learn-logo{display:flex;align-items:center;gap:.6rem;letter-spacing:0}
+.brand-badge{display:inline-flex;align-items:baseline;padding:.12rem .5rem;border-radius:.55rem;line-height:1.25;background:#FDF1EB;border:1px solid rgba(238,115,64,.25)}
+.brand-ai66{font-weight:800;font-size:1.2rem;letter-spacing:.02em;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.site-domain{font-weight:900;color:#0A0A0A;-webkit-text-fill-color:#0A0A0A;letter-spacing:-.01em;font-size:1.35rem}
+@media (max-width:760px){.brand-ai66{font-size:1.05rem}.site-domain{font-size:1.05rem}}
+
+/* 工具包 */
+.toolkit{margin:8px 0 40px;scroll-margin-top:110px}
+.toolkit-head{text-align:center;margin-bottom:22px}
+.toolkit-head h2{font-size:26px;margin:8px 0 6px;letter-spacing:-.5px}
+.toolkit-head p{color:#7a7480;font-size:14px}
+.toolkit-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.toolkit-group{background:#fff;border:1px solid #f0e4dc;border-radius:20px;padding:20px 20px 10px;box-shadow:0 2px 8px rgba(238,115,64,.04)}
+.toolkit-group-title{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.toolkit-group-title h3{font-size:16px}
+.toolkit-group-title small{font-size:12px;color:#968a85}
+.toolkit-num{flex:0 0 28px;height:28px;border-radius:9px;background:var(--grad);color:#fff;font-weight:800;font-size:14px;display:grid;place-items:center}
+.toolkit-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 4px;border-top:1px solid #f5ede8;color:inherit}
+.toolkit-item span{display:flex;flex-direction:column;min-width:0}
+.toolkit-item strong{font-size:14px}
+.toolkit-item small{font-size:12px;color:#8f8580;margin-top:2px}
+.toolkit-item em{flex-shrink:0;font-style:normal;font-size:12px;color:#D9602F;background:#FFF3EB;border-radius:999px;padding:3px 10px}
+.toolkit-item:hover strong{color:#D9602F}
+.toolkit-note{text-align:center;font-size:12px;color:#a1958f;margin-top:14px}
+@media (max-width:760px){.toolkit-grid{grid-template-columns:1fr}.toolkit-head h2{font-size:22px}}
+
+/* 关键风险点标红 */
+.warn-red,.warn-red strong{color:#D92D20!important;font-weight:700}
+.small-note.warn-note{color:#D92D20;font-weight:600;background:#FEF3F2;border-left:3px solid #F04438;padding:10px 14px;border-radius:8px}
+
+/* 视频框与章节 */
+.full-video{background:#fff;border:1px solid #f3dccf;border-radius:18px;box-shadow:0 10px 30px rgba(238,115,64,.10)}
+.full-video video{border-radius:18px 18px 0 0}
+.full-video>p{font-size:13px;padding:12px 18px;background:#FFF8F3;border-bottom:1px solid #f6e6dc}
+.full-video>p a{color:#D9602F;font-weight:600}
+.video-chapters{padding:14px 16px 18px}
+.video-chapters-title{font-size:13px;font-weight:700;color:#3a3330;margin:0 2px 10px}
+.video-chapters-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.video-chapter{display:flex;align-items:center;gap:10px;text-align:left;border:1px solid #f1e4dc;background:#fff;border-radius:10px;padding:9px 12px;font-size:13px;color:#3d3633;cursor:pointer;transition:border-color .15s,background .15s}
+.video-chapter span{flex-shrink:0;font-family:ui-monospace,Menlo,monospace;font-size:12px;font-weight:700;color:#D9602F;background:#FFF1E8;border-radius:6px;padding:2px 7px}
+.video-chapter:hover{border-color:#EE7340}
+.video-chapter.current{border-color:#EE7340;background:#FFF5EE;font-weight:700}
+@media (max-width:760px){.video-chapters-grid{grid-template-columns:1fr 1fr}.video-chapter{font-size:12px;padding:8px 9px;gap:7px}}
+@media (max-width:420px){.video-chapters-grid{grid-template-columns:1fr}}

@@ -96,3 +96,42 @@ body::before{
 .hero-brandpill-name{font-family:var(--font-display);font-weight:800;font-size:1.15rem;letter-spacing:.06em;
   background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 .hero-brandpill-meta{display:inline-flex;align-items:center;gap:.45rem;font-size:.85rem;color:var(--color-text-muted)}
+
+/* 首页教程入口卡片 */
+.tutorial-entry{display:flex;align-items:center;gap:1.1rem;max-width:880px;margin:2.5rem auto 0;padding:1.3rem 1.6rem;border-radius:1.25rem;
+  background:linear-gradient(120deg,rgba(245,160,60,.10),rgba(238,115,64,.08),rgba(226,82,90,.10));border:1px solid rgba(238,115,64,.25);
+  color:var(--color-text);text-decoration:none;box-shadow:var(--shadow-sm);transition:transform .18s,box-shadow .18s}
+.tutorial-entry:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.tutorial-entry-icon{flex:0 0 48px;height:48px;border-radius:14px;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center}
+.tutorial-entry-icon svg{width:24px;height:24px}
+.tutorial-entry-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:.2rem}
+.tutorial-entry-text strong{font-size:1.1rem}
+.tutorial-entry-text span{color:var(--color-text-muted);font-size:.92rem}
+.tutorial-entry-go{flex-shrink:0;font-weight:700;color:var(--color-accent)}
+@media (max-width:640px){
+  .tutorial-entry{flex-wrap:wrap;padding:1.1rem 1.2rem}
+  .tutorial-entry-go{width:100%;text-align:right}
+}
+
+/* 首屏第四个按钮：教程中心 + 下方小字 */
+.hero-tutorial-btn{position:relative;display:inline-flex;flex-direction:column;align-items:center;text-decoration:none}
+.hero-tutorial-main{border-color:rgba(238,115,64,.55)!important;color:#D9602F!important;font-weight:700}
+.hero-tutorial-tip{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);white-space:nowrap;
+  font-size:12px;font-weight:700;color:#fff;background:var(--grad);border-radius:999px;padding:2px 10px;box-shadow:0 4px 10px rgba(238,115,64,.25)}
+.hero-tutorial-tip::before{content:"";position:absolute;top:-4px;left:50%;transform:translateX(-50%) rotate(45deg);width:8px;height:8px;background:#EE7340;border-radius:1px}
+.hero-cta{margin-bottom:2.6rem}
+
+/* 卖点行：微信 / 支付宝付款 */
+.hero-paytag{display:inline-flex;align-items:center;gap:.35rem;padding:.25rem .9rem;border-radius:999px;background:#EDFBF2;border:1px solid #BFEACD;color:#127A3D;font-weight:700;white-space:nowrap}
+.pay-dot{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;color:#fff;font-size:11px;font-weight:800}
+.pay-dot--wx{background:#1AAD19}
+.pay-dot--ali{background:#1677FF;margin-right:.15rem}
+@media (max-width:768px){
+  .hero-meta{display:flex;flex-wrap:wrap;justify-content:center;row-gap:.6rem}
+  .hero-meta .hero-meta-sep:last-of-type{display:none}
+  .hero-paytag{flex-basis:auto}
+  .hero-tutorial-btn{width:100%}
+  .hero-tutorial-main{width:100%}
+  .hero-tutorial-tip{position:static;transform:none;margin-top:8px}
+  .hero-tutorial-tip::before{display:none}
+}
