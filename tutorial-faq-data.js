@@ -27,10 +27,6 @@ const claudeFaqTopics=[
         "IPPure"
       ],
       [
-        "https://cc.mastersgo.cc/",
-        "MastersGo 检测"
-      ],
-      [
         "https://meowvps.com/",
         "MeowVPS"
       ],
@@ -41,10 +37,6 @@ const claudeFaqTopics=[
       [
         "https://meowvps.com/tools/detector/",
         "MeowVPS 综合检测"
-      ],
-      [
-        "https://fuck-claude.vercel.app",
-        "其他环境检测（第三方）"
       ]
     ]
   },
@@ -123,7 +115,7 @@ const claudeFaqTopics=[
       "不准备自行注册，可以到本站商品区查看 Claude 成品账号。",
       "先看账号类型、交付内容和售后说明，再进入对应商品下单。成品账号与付费会员是否包含在一起，以商品说明为准。"
     ],
-    "link": "https://aizhichong.cc/#pricing",
+    "link": "https://aizhichong.cc/#accounts",
     "purchase": true
   }
 ];
