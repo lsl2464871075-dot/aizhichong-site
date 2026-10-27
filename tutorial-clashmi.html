@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Clash Mi 固定出口教程 · AI智充</title><meta name="description" content="用 Clash Mi 链式代理让 Claude / Claude Code 固定一个出口：交给 Codex 配好，先配通软件，再接 Claude，最后两处验收。"><link rel="icon" href="favicon.svg?v=2" type="image/svg+xml"><link rel="icon" href="favicon-32.png?v=2" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png?v=2"><link rel="stylesheet" href="tutorial-brand.css?v=20261020-product-hub"><link rel="stylesheet" href="tutorial-tutorial.css?v=20261023-orange"><link rel="stylesheet" href="tutorial-orange.css?v=20261023-chapters"><link rel="stylesheet" href="tutorial-clashmi.css?v=20261027-clashmi"></head>
+<body><div class="demo-banner">AI 使用教程中心 <span>Clash Mi 固定出口 · v0.4</span></div>
+<header class="learn-header"><div class="header-inner"><a href="tutorial-preview#/" class="learn-logo" aria-label="教程中心首页"><span class="brand-badge"><span class="brand-ai66">AI智充</span></span><span class="site-domain site-domain--nav">aizhichong.cc</span></a><nav aria-label="主导航"><a href="https://aizhichong.cc/" target="_blank" rel="noopener">官网商城 ↗</a><a href="tutorial-preview#/" class="active">教程中心</a><a href="tutorial-preview#/toolkit">工具包</a></nav><a class="btn btn-primary-new shop-nav" href="https://aizhichong.cc/#pricing" target="_blank" rel="noopener">会员与账号 ↗</a></div></header>
+
+<main class="cm-wrap">
+  <nav class="center-breadcrumb" aria-label="当前位置"><a href="tutorial-preview#/">教程中心</a><span>/</span><strong>Clash Mi 固定出口</strong></nav>
+
+  <section class="cm-hero">
+    <span class="center-eyebrow">Mac / Windows · 交给 Codex 配置</span>
+    <h1>让 Claude 固定一个出口<br><span class="gradient-text">Clash Mi 链式代理配置教程</span></h1>
+    <p>先把软件配通，再接 Claude，最后看两处验收。</p>
+    <div class="center-actions">
+      <a class="btn btn-primary-new" href="#downloads">下载配置包 →</a>
+      <a class="btn btn-secondary-new" href="https://www.youtube.com/watch?v=QjR9FMuZ3o0&t=269s" target="_blank" rel="noopener">Clash Mi 视频教程 ↗</a>
+    </div>
+  </section>
+
+  <section class="cm-card">
+    <h2>先弄懂：为什么要用链式代理？</h2>
+    <div class="cm-routes">
+      <div class="cm-route"><span class="lab">只用机场</span><span class="hop">你</span><i>→</i><span class="hop">机场节点</span><i>→</i><span class="hop">Claude</span><em>出口 IP 很多人共用，还一直在变</em></div>
+      <div class="cm-route"><span class="lab">只用住宅 IP</span><span class="hop">你</span><i>→</i><span class="hop">住宅 IP</span><i>→</i><span class="hop">Claude</span><em>出口固定，但从国内直连过去慢、容易断</em></div>
+      <div class="cm-route good"><span class="lab">链式代理</span><span class="hop">你</span><i>→</i><span class="hop">机场节点</span><i>→</i><span class="hop">住宅 IP</span><i>→</i><span class="hop">Claude</span><em>机场负责连出去，住宅 IP 负责出口：又稳，出口又固定</em></div>
+    </div>
+    <p style="margin-top:12px">机场节点坏了随便换一个，Claude 看到的始终是你的住宅 IP。住宅 IP 断了，请求直接失败，不会偷偷换成国内 IP。</p>
+    <div class="cm-why-mi">
+      <h3>为什么用 Clash Mi，不用 Clash Verge？</h3>
+      <ul>
+        <li>这套配置模板、截图和验收步骤，都是在 Clash Mi 上跑通、验过的。</li>
+        <li>Mac 和 Windows 用的是同一个软件，教程和截图两边通用。</li>
+        <li>Clash Verge 也能做链式，但导入方式、TUN 和覆写设置都不一样，换了要重新调、重新验。不想踩坑，就跟着用 Clash Mi。</li>
+        <li>我自己用下来，Clash Verge 用起来非常复杂，有泄露的风险，改配置也不像 Clash Mi 那样丝滑。</li>
+        <li>Clash Mi 在手机上也能用，电脑和手机可以无缝切换，具体看 YouTube 那个视频。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="cm-card">
+    <h2>开始前备好 3 样</h2>
+    <div class="cm-prep">
+      <div><b>① Codex</b>有 ChatGPT 会员，Codex 能正常用</div>
+      <div><b>② 订阅链接</b>你自己机场的订阅，当入口节点用</div>
+      <div><b>③ 住宅 IP</b>IP、端口、账号、密码<br>还没有？<a href="https://share.cliproxy.com/share/hd8asdu2e" target="_blank" rel="noopener">Cliproxy 住宅 IP（推荐链接）↗</a></div>
+    </div>
+  </section>
+
+  <section class="cm-card cm-step">
+    <span class="cm-num">1</span>
+    <div class="cm-step-body">
+      <h2>装 Clash Mi</h2>
+      <div class="cm-who single"><div class="you"><strong>你做</strong><br>
+        Mac（M 芯片、Intel 芯片都一样）→ <code>macos_universal.dmg</code> · Windows → <code>windows_x64.exe</code>，<a href="#downloads">在下面下载</a>。<br>
+        双击安装。Mac 弹“允许网络扩展”点允许；Windows 弹“Windows 已保护你的电脑”点“更多信息 → 仍要运行”，弹管理员提示点“是”。</div></div>
+      <p style="margin-top:10px">没用过 Clash Mi？先看配置包里的《Clash Mi 使用说明书》和 <a href="https://www.youtube.com/watch?v=QjR9FMuZ3o0&t=269s" target="_blank" rel="noopener" style="color:#D9602F;font-weight:600">YouTube 教程 ↗</a>，5 分钟就够。</p>
+    </div>
+  </section>
+
+  <section class="cm-card cm-step">
+    <span class="cm-num">2</span>
+    <div class="cm-step-body">
+      <h2>交给 Codex，把配置和软件配通</h2>
+      <div class="cm-who">
+        <div class="you"><strong>你做</strong><br>把解压后的配置包交给 Codex，复制《先读我》里的口令。<br>把机场的订阅链接，还有你住宅 IP 的全部信息（IP、端口、账号、密码）都发给 Codex，它就按要求开始填。</div>
+        <div class="codex"><strong>Codex 做</strong><br>填好 <code>配置模板.yaml</code> → 导入 Clash Mi → 选中这份配置 → 入口节点选一个能用的 → 打开连接</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cm-card cm-gate">
+    <h2>🚦 关卡：软件通了才往下走</h2>
+    <p>Chrome 能打开 google.com，Clash Mi 的“连接”页里出现新连接，就是通了。<br>不通：把 Clash Mi 的报错截图发给 Codex，让它修到通为止。没通之前不碰 Claude 的设置。</p>
+  </section>
+
+  <section class="cm-card cm-step">
+    <span class="cm-num">3</span>
+    <div class="cm-step-body">
+      <h2>让 Claude 走固定出口</h2>
+      <div class="cm-who">
+        <div class="codex"><strong>Codex 做</strong><br>Claude Code 设成走本机端口 <code>127.0.0.1:17903</code>；Claude 桌面端由 Clash Mi 的 TUN 接管。</div>
+        <div class="you"><strong>你做</strong><br>Codex 说“设置好了”以后，把 Claude 和 Claude Code 关掉重开一次。</div>
+      </div>
+      <div class="cm-flow"><span>Claude / Claude Code</span><i>→</i><span>本机 17903</span><i>→</i><span>入口节点</span><i>→</i><span>专用落地</span><i>→</i><span>Claude 网站</span></div>
+    </div>
+  </section>
+
+  <section class="cm-card cm-step">
+    <span class="cm-num">4</span>
+    <div class="cm-step-body">
+      <h2>验收：看两个地方</h2>
+      <div class="cm-check">
+        <div><h3>A · Clash Mi「连接」页</h3>
+          左侧点 <b>⇄</b>，搜索框输入 <code>claude</code>。<br>
+          代理链显示 <b>固定出口 → 专用落地</b> <span class="cm-ok">= 对</span><br>
+          显示 DIRECT 或别的节点 <span class="cm-bad">= 不对，发给 Codex</span><br>正确的样子见下图 ↓</div>
+        <div><h3>B · Chrome 打开检测站</h3>
+          打开 <a href="https://ip.net.coffee/claude/" target="_blank" rel="noopener" style="color:#D9602F;font-weight:600">ip.net.coffee ↗</a>，看“Claude AI IP 检测”：
+          <ul>
+            <li><span class="cm-ok">✓</span> Claude 出口 IP = 你的住宅 IP</li>
+            <li><span class="cm-ok">✓</span> IPv4 出口也是住宅 IP</li>
+            <li><span class="cm-ok">✓</span> WebRTC 里没有国内 IP</li>
+            <li>时区、语言不一致不用管，这不归代理管</li>
+            <li>“机房 IP”“有滥用记录”是节点质量问题，换节点才能改</li>
+          </ul></div>
+      </div>
+      <figure class="cm-shot"><img src="tutorial-clashmi-connections.png?v=20261027" alt="Clash Mi 连接页：claude 的连接都走 固定出口 → 专用落地" width="1858" height="559" loading="lazy"><figcaption>Clash Mi 连接页：搜 claude，三条连接的代理链都是“固定出口 → 专用落地”</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="cm-card cm-step">
+    <span class="cm-num">5</span>
+    <div class="cm-step-body">
+      <h2>断网测试：代理一断，Claude 就断</h2>
+      <div class="cm-flow"><span>Clash Mi 里把「固定出口」切到 <b>REJECT</b></span><i>→</i><span>让 Claude Code 说一句话</span><i>→</i><span class="cm-bad">应该报错连不上</span><i>→</i><span>切回「专用落地」恢复</span></div>
+      <p style="margin-top:10px">能连上、或者查到国内 IP，就是有漏洞，停下来发给 Codex。Windows 也照这样设一遍，这是最保险的做法；不会设也能用，只是网络不稳时有小概率走漏。</p>
+    </div>
+  </section>
+
+  <section class="cm-card cm-downloads" id="downloads">
+    <h2>下载</h2>
+    <p class="cm-sub">配置包放在本站；Clash Mi 安装包直接从官方 GitHub 下载</p>
+    <div class="toolkit-grid">
+      <div class="toolkit-group">
+        <div class="toolkit-group-title"><span class="toolkit-num">1</span><div><h3>配置包 v0.4</h3><small>使用说明书 · 给 Codex 的口令 · 配置模板</small></div></div>
+        <a class="toolkit-item" href="clashmi-config-pack-v0.4.zip" download><span><strong>下载配置包</strong><small>解压后交给 Codex，先看《先读我》</small></span><em>本站 ↓</em></a>
+        <a class="toolkit-item" href="https://www.youtube.com/watch?v=QjR9FMuZ3o0&t=269s" target="_blank" rel="noopener"><span><strong>Clash Mi 视频教程</strong><small>导入配置、连接、手机上用</small></span><em>YouTube ↗</em></a>
+      </div>
+      <div class="toolkit-group">
+        <div class="toolkit-group-title"><span class="toolkit-num">2</span><div><h3>Clash Mi 安装包（官方）</h3><small>1.0.31.1703 · 来自 KaringX/clashmi</small></div></div>
+        <a class="toolkit-item" href="https://github.com/KaringX/clashmi/releases/download/v1.0.31.1703/clashmi_1.0.31.1703_macos_universal.dmg" target="_blank" rel="noopener"><span><strong>Mac 通用版</strong><small>M 芯片、Intel 都用它 · 93 MB · 已过苹果公证</small></span><em>GitHub ↓</em></a>
+        <a class="toolkit-item" href="https://github.com/KaringX/clashmi/releases/download/v1.0.31.1703/clashmi_1.0.31.1703_windows_x64.exe" target="_blank" rel="noopener"><span><strong>Windows x64 版</strong><small>43 MB · 无数字签名，安装时点“仍要运行”</small></span><em>GitHub ↓</em></a>
+        <a class="toolkit-item" href="https://github.com/KaringX/clashmi/releases" target="_blank" rel="noopener"><span><strong>全部版本</strong><small>手机版、更新版本都在这里</small></span><em>GitHub ↗</em></a>
+      </div>
+    </div>
+    <p class="cm-dl-note">配置包里的《校验说明》写有两个安装包的官方 SHA-256，下载后可以自己核对。</p>
+  </section>
+
+  <section class="cm-card" style="padding:0;border:0;box-shadow:none;background:transparent">
+    <div class="cm-notice"><strong>先说清楚：</strong>固定 IP 不保证账号不被封。本站不卖节点和机场，只讲 Clash Mi 这个软件怎么配、怎么用；订阅和住宅 IP 用你自己的，配置文件、密码、订阅链接只留在自己电脑上。重要账号先别用，先拿空白浏览器和新会话测。</div>
+  </section>
+
+  <a class="center-back" href="tutorial-preview#/">← 返回教程中心</a>
+</main>
+
+<footer class="learn-footer"><strong>AI智充 · aizhichong.cc</strong><span>精选教程 · 分步学习 · 问题答疑</span><small>Clash Mi 为第三方开源软件，安装包来自其官方 GitHub。</small></footer>
+</body></html>
